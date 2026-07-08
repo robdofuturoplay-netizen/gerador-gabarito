@@ -7,6 +7,7 @@ const pageCountInput = document.getElementById('page-count');
 const hasFlapInput = document.getElementById('has-flap');
 const flapSizeGroup = document.getElementById('flap-size-group');
 const flapSizeInput = document.getElementById('flap-size');
+const flapError = document.getElementById('flap-error'); // Novo: Elemento de mensagem de erro
 
 const spineWidthDisplay = document.getElementById('spine-width-display');
 const totalWidthDisplay = document.getElementById('total-width-display');
@@ -25,9 +26,46 @@ const BLEED_MM = 3;
 let baseScale = 1; // Base scale to fit screen
 
 /**
+ * Validates inputs and shows visual errors (red outline & messages)
+ */
+function validateInputs() {
+    const hasFlap = hasFlapInput.checked;
+    const flapCm = parseFloat(flapSizeInput.value) || 0;
+    
+    // Se a orelha estiver habilitada, faz a verificação de limites (5cm a 8cm)
+    if (hasFlap) {
+        if (flapCm < 5) {
+            flapSizeInput.classList.add('input-error');
+            if (flapError) {
+                flapError.textContent = '⚠️ Erro: A orelha não pode ser menor que 5 cm.';
+                flapError.style.display = 'block';
+            }
+            return false;
+        } else if (flapCm > 8) {
+            flapSizeInput.classList.add('input-error');
+            if (flapError) {
+                flapError.textContent = '⚠️ Erro: A orelha não pode ser maior que 8 cm.';
+                flapError.style.display = 'block';
+            }
+            return false;
+        }
+    }
+    
+    // Remove os alertas caso o valor seja válido ou a orelha esteja desmarcada
+    flapSizeInput.classList.remove('input-error');
+    if (flapError) {
+        flapError.style.display = 'none';
+    }
+    return true;
+}
+
+/**
  * Updates the UI based on inputs and renders the canvas.
  */
 function updateCanvas() {
+    // 0. Executar validações visuais
+    validateInputs();
+
     // 1. Get values
     const widthCm = parseFloat(bookWidthInput.value) || 14;
     const heightCm = parseFloat(bookHeightInput.value) || 21;
@@ -157,6 +195,12 @@ updateCanvas();
 
 // PDF Generation
 downloadBtn.addEventListener('click', async () => {
+    // Validação extra para impedir download caso os dados estejam incorretos
+    if (!validateInputs()) {
+        alert("Por favor, corrija os erros sinalizados em vermelho antes de baixar o PDF.");
+        return;
+    }
+
     // 1. Prepare canvas for full resolution capture
     const originalTransform = canvasWrapper.style.transform;
     canvasWrapper.style.transform = 'scale(1)'; // Reset scale
