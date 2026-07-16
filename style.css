@@ -239,6 +239,19 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(77, 178, 162, 0.2);
 }
 
+input.has-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+.error-text {
+    color: #ef4444;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    display: none;
+}
+
 .checkbox-group {
     flex-direction: row;
     align-items: center;
@@ -482,6 +495,183 @@ input[type="range"] {
     font-size: 10px;
     font-weight: bold;
     color: var(--text-main);
+}
+
+
+/* Linhas de Vinco de Lombada 1,2 cm (cinza) */
+.vinco-lombada-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 1px dashed #777777; /* Linha de vinco cinza escuro */
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.vinco-lombada-line.vinco-back {
+    right: 12mm; /* Vinco da lombada na contracapa (12mm da borda direita da div) */
+}
+
+.vinco-lombada-line.vinco-front {
+    left: 12mm; /* Vinco da lombada na capa (12mm da borda esquerda da div) */
+}
+
+.vinco-lombada-label {
+    font-size: 8px;
+    color: #555555;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #cccccc;
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transform: rotate(-90deg);
+    font-weight: 600;
+}
+
+/* Cotas Numéricas Horizontais */
+.cota-container {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    pointer-events: none;
+    z-index: 6;
+}
+
+/* Para posicionar cotas no topo do canvas, por exemplo, a cota geral ou cota da orelha */
+.cota-container.cota-top {
+    bottom: auto;
+    top: 8px;
+}
+
+.cota-arrow {
+    font-size: 8px;
+    color: #666666;
+    line-height: 1;
+}
+
+.cota-line {
+    flex: 1;
+    height: 1px;
+    background-color: #888888;
+    margin: 0 4px;
+}
+
+.cota-text {
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--text-main);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 1px 4px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Cotas Numéricas Verticais (exibidas na lateral) */
+.cota-vertical-container {
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.cota-arrow-v {
+    font-size: 8px;
+    color: #666666;
+    line-height: 1;
+}
+
+.cota-line-v {
+    flex: 1;
+    width: 1px;
+    background-color: #888888;
+    margin: 4px 0;
+}
+
+.cota-text-v {
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--text-main);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 2px 4px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Linhas Tracejadas de Sangria (Refile) e Segurança com Legenda */
+.bleed-cut-line {
+    position: absolute;
+    top: 3mm;
+    left: 3mm;
+    right: 3mm;
+    bottom: 3mm;
+    border: 1px dashed var(--accent);
+    pointer-events: none;
+    z-index: 9;
+}
+
+.safety-line {
+    position: absolute;
+    top: 8mm;
+    left: 8mm;
+    right: 8mm;
+    bottom: 8mm;
+    border: 1px dashed var(--primary);
+    pointer-events: none;
+    z-index: 9;
+}
+
+.area-label-text {
+    position: absolute;
+    top: -7px;
+    left: 15px;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    line-height: 1.2;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.bleed-cut-line .area-label-text {
+    color: var(--accent);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--accent);
+}
+
+.safety-line .area-label-text {
+    color: var(--primary);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--primary);
+}
+
+/* Ocultação Condicional das Cotas no Canvas */
+.cover-canvas.hide-cotas .cota-container,
+.cover-canvas.hide-cotas .cota-vertical-container,
+.cover-canvas.hide-cotas .vinco-lombada-line,
+.cover-canvas.hide-cotas .bleed-cut-line,
+.cover-canvas.hide-cotas .safety-line {
+    display: none !important;
 }
 
 @media (max-width: 900px) {
